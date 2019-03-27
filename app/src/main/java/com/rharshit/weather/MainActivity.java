@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 City city = (City) lvSearch.getAdapter().getItem(position);
                 Intent i = new Intent(mContext, WeatherActivity.class);
                 i.putExtra("woeid", city.woeid);
+                i.putExtra("city", city.title);
+                i.putExtra("lat_long", city.latt_long);
                 startActivity(i);
             }
         });

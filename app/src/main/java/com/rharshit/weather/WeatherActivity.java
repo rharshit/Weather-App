@@ -1,6 +1,7 @@
 package com.rharshit.weather;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,8 +29,14 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
         mContext = this;
 
-        int woeid = getIntent().getIntExtra("woeid", 0);
+        Intent i = getIntent();
+        int woeid = i.getIntExtra("woeid", 0);
+        String city = i.getStringExtra("city");
+        String lat_long = i.getStringExtra("lat_long");
         Log.d(TAG, "onCreate: woeid: " + woeid);
+
+        ((TextView) findViewById(R.id.city_name)).setText(city);
+        ((TextView) findViewById(R.id.lat_long)).setText(lat_long);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.metaweather.com")
@@ -46,11 +53,14 @@ public class WeatherActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.weather_state_name)).setText(
                         info.consolidated_weather.get(0).weather_state_name
                 );
+                ((TextView) findViewById(R.id.weather_state_abbr)).setText(
+                        Weather.icons.get(info.consolidated_weather.get(0).weather_state_abbr)
+                );
                 ((TextView) findViewById(R.id.the_temp)).setText(
-                        info.consolidated_weather.get(0).the_temp.toString()
+                        String.format("%.2f°", info.consolidated_weather.get(0).the_temp)
                 );
                 ((TextView) findViewById(R.id.humidity)).setText(
-                        String.valueOf(info.consolidated_weather.get(0).humidity)
+                        String.format("Humidity\n%d", info.consolidated_weather.get(0).humidity)
                 );
             }
 

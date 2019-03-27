@@ -1,6 +1,7 @@
 package com.rharshit.weather;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -37,8 +38,17 @@ public class CityViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView tv = new TextView(mContext);
-        tv.setText(cities.get(position).title);
-        return tv;
+        City c = cities.get(position);
+
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View item = inflater.inflate(R.layout.list_item_city, null, true);
+
+        TextView tvCity = item.findViewById(R.id.city);
+        TextView tvLatLong = item.findViewById(R.id.latlong);
+
+        tvCity.setText(c.title);
+        tvLatLong.setText(c.latt_long);
+
+        return item;
     }
 }
