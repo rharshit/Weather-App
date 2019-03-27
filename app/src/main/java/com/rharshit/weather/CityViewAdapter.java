@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.rharshit.weather.api.City;
+
 import java.util.List;
 
 public class CityViewAdapter extends BaseAdapter {
@@ -25,7 +27,7 @@ public class CityViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return cities.get(position);
     }
 
     @Override

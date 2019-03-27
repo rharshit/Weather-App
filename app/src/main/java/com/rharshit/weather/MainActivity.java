@@ -1,16 +1,20 @@
 package com.rharshit.weather;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.rharshit.weather.api.ApiHandler;
+import com.rharshit.weather.api.City;
 
 import java.util.List;
 
@@ -65,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<List<City>> call, Response<List<City>> response) {
                             List<City> cities = response.body();
-
                             lvSearch.setAdapter(new CityViewAdapter(mContext, cities));
                         }
 
@@ -76,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                City city = (City) lvSearch.getAdapter().getItem(position);
+                Intent i = new Intent(mContext, WeatherActivity.class);
+                i.putExtra("woeid", city.woeid);
+                startActivity(i);
             }
         });
     }
