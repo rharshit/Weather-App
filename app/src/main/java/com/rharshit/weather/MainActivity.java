@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etSearch;
     private ListView lvSearch;
+    private ImageButton ibClear;
 
     private Context mContext;
     private String TAG = "MainActivity";
@@ -40,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
 
         etSearch = findViewById(R.id.et_search_city);
         lvSearch = findViewById(R.id.list_search_cities);
+        ibClear = findViewById(R.id.clear_search);
+
+        ibClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch.setText("");
+            }
+        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.metaweather.com")
@@ -63,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
                 String query = etSearch.getText().toString();
                 Log.d(TAG, "afterTextChanged: City: " + query);
 
-                if(!query.equals("")){
+                if(query.equals("")){
+                    ibClear.setVisibility(View.INVISIBLE);
+                } else {
+                    ibClear.setVisibility(View.VISIBLE);
                     Call<List<City>> call = handler.getCities(query);
                     call.enqueue(new Callback<List<City>>() {
                         @Override
